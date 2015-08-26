@@ -398,7 +398,10 @@ void Renderer::setupConventionalUniforms(Renderable* renderable, PassInfo* passI
 	glm::vec4 ambientLight(glm::vec3(0.05f, 0.05f, 0.05f), 1.0f);
 	glm::vec3 diffuseLight(glm::vec3(0.5f, 0.5f, 0.5f));
 	glm::vec3 lightPosition = glm::vec3(passInfo->x, passInfo->y, passInfo->z);
+	//for lab 4
+	//otherwise
 	glm::vec3 specularLightColor = glm::vec3(0.5f, 0.5f, 0.5f);
+	float specularIntensity = passInfo->spec;
 
 	//light uniform locations
 	GLint eyePositionWorldUniformLocation = glGetUniformLocation(renderable->shader->programID, "eyePositionWorld");
@@ -406,6 +409,7 @@ void Renderer::setupConventionalUniforms(Renderable* renderable, PassInfo* passI
 	GLint ambientLightUniformLocation = glGetUniformLocation(renderable->shader->programID, "ambientLight");
 	GLint diffuseLightColorUniformLocation = glGetUniformLocation(renderable->shader->programID, "diffuseColor");
 	GLint specularColorUniformLocation = glGetUniformLocation(renderable->shader->programID, "specularColor");
+	GLint specularIntensityUniformLocation = glGetUniformLocation(renderable->shader->programID, "specularIntensity");
 
 	//texture uniform locations
 	GLint applyTextureUniformLocation = glGetUniformLocation(renderable->shader->programID, "applyTexture");
@@ -468,6 +472,10 @@ void Renderer::setupConventionalUniforms(Renderable* renderable, PassInfo* passI
 		glUniform3fv(specularColorUniformLocation, 1, &specularLightColor[0]);
 		//qDebug() << "specular color";
 	}
+	if (specularIntensityUniformLocation != -1)
+	{
+		glUniform1f(specularIntensityUniformLocation, specularIntensity);
+	}
 
 	if (mvwUniformLocation != -1)
 	{
@@ -522,13 +530,12 @@ void Renderer::doPass(PassInfo* passInfo)
 				passInfo->z)
 				* glm::scale(0.1f, 0.1f, 0.1f);
 		}
-		if (i == 1)
+		if (i == 3)
 		{
-			/*r->transformations = glm::translate(
-				passInfo->cubeX,
-				passInfo->cubeY,
-				passInfo->cubeZ);*/
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
+
 
 #endif
 		//setupUniforms(r);
@@ -536,10 +543,10 @@ void Renderer::doPass(PassInfo* passInfo)
 			setupConventionalUniforms(r, passInfo, i);
 		else
 			setupUniforms(r, passInfo, i);
-
 		glDrawElements(
 			g->indexMode, g->numIndices,
 			g->indiceDataType, (void*)(g->indexByteOffset));
+		glDisable(GL_BLEND);
 	}
 	//qDebug() << "Finished pass";
 }

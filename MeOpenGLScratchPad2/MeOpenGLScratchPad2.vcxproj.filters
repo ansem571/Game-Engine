@@ -54,6 +54,8 @@
     <None Include="ShaderCode\TangentFragmentShaderCode.glsl" />
     <None Include="ShaderCode\MultiTextureFragmentShaderCode.glsl" />
     <None Include="ShaderCode\MultiTextureVertexShaderCode.glsl" />
+    <None Include="ShaderCode\alphaVertexShaderCode.glsl" />
+    <None Include="ShaderCode\alphaFragmentShaderCode.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -71,5 +73,6 @@
     <Image Include="Assets\college.png" />
     <Image Include="Assets\Leaf.png" />
     <Image Include="Assets\whiteLeaf.png" />
+    <Image Include="Assets\GlassTexture.png" />
   </ItemGroup>
 </Project>

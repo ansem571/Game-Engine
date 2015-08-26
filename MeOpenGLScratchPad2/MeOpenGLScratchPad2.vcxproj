@@ -121,6 +121,8 @@
     <None Include="..\MyObjConverter\bin\Debug\MyBinaryFile.bin" />
     <None Include="Assets\HisBinaryFile.bin" />
     <None Include="Assets\MyBinaryFile.bin" />
+    <None Include="ShaderCode\alphaFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\alphaVertexShaderCode.glsl" />
     <None Include="ShaderCode\FragmentShaderCode.glsl" />
     <None Include="ShaderCode\FragmentShaderPassThroughCode.glsl" />
     <None Include="ShaderCode\LightSourceFragmentShaderCode.glsl" />
@@ -137,6 +139,7 @@
   <ItemGroup>
     <Image Include="Assets\college.png" />
     <Image Include="Assets\elementarySchool.png" />
+    <Image Include="Assets\GlassTexture.png" />
     <Image Include="Assets\gray.png" />
     <Image Include="Assets\highSchool.png" />
     <Image Include="Assets\Leaf.png" />

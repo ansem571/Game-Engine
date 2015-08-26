@@ -48,6 +48,7 @@ void MeGame::newFrame()
 	thePass->y = debugMenu.sliderInfos[1].currentValue;
 	thePass->z = debugMenu.sliderInfos[2].currentValue;
 
+	//thePass->spec = debugMenu.sliderInfos[3].currentValue;
 #endif
 
 	renderer.draw();
@@ -95,8 +96,6 @@ void MeGame::setupLayout()
 {
 	mainWindow = new QWidget();
 	debugWidget = new QWidget();
-	//debugWidget->setContentsMargins(-1, -1, -1, -10);
-	//mainWindow->setContentsMargins(-1, -10, -1, -10);
 	//can I setup the layouts
 	if(!layoutInfo.initialize())
 		return;
@@ -229,6 +228,10 @@ void MeGame::doRendererStuff()
 	//multi texture shader
 	std::string mtsv = (FileIO::file2String("ShaderCode\\MultiTextureVertexShaderCode.glsl"));
 	std::string mstf = (FileIO::file2String("ShaderCode\\MultiTextureFragmentShaderCode.glsl"));
+	//alpha texture shader
+	std::string atv = (FileIO::file2String("ShaderCode\\alphaVertexShaderCode.glsl"));
+	std::string atf = (FileIO::file2String("ShaderCode\\alphaFragmentShaderCode.glsl"));
+
 	
 	//shader info
 	ShaderInfo* normalShader = renderer.addShader(v.c_str(), f.c_str());
@@ -237,6 +240,7 @@ void MeGame::doRendererStuff()
 	ShaderInfo* lightSourceShader = renderer.addShader(lsv.c_str(), lsf.c_str());
 	ShaderInfo* tangentShader = renderer.addShader(clv.c_str(), clf.c_str());
 	ShaderInfo* multiTextureShader = renderer.addShader(mtsv.c_str(), mstf.c_str());
+	ShaderInfo* alphaTextureShader = renderer.addShader(atv.c_str(), atf.c_str());
 
 
 	//texture info
@@ -244,8 +248,8 @@ void MeGame::doRendererStuff()
 	TextureInfo* cubeTexture = renderer.addTexture("/Assets/ToonTeddyBear.png", 1);
 	TextureInfo* planeTexture = renderer.addTexture("/Assets/Shapes.png", 2);
 	TextureInfo* spaceTexture = renderer.addTexture("/Assets/space.png", 3);
-	
 	TextureInfo* multiTexture1 = renderer.addTexture("/Assets/Leaf.png", "/Assets/whiteLeaf.png", 4, 5);
+	TextureInfo* glassTexture = renderer.addTexture("/Assets/GlassTexture", 6);
 
 	//add a pass
 	thePass = renderer.addPassInfo();
@@ -259,14 +263,18 @@ void MeGame::doRendererStuff()
 	thePass->addRenderable(renderable);
 
 	//normal mapped plane 1
-	finalTransform = glm::translate(0.0f, 9.5f, -20.0f) * glm::rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	finalTransform = glm::translate(0.0f, 5.0f, -10.0f) * glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 	renderable = renderer.addRenderable(spaceTexture, planeGeo, normalShader, finalTransform);
 	thePass->addRenderable(renderable);
 
+	finalTransform = glm::translate(0.0f, 5.0f, -5.0f) * glm::scale(10.0f, 10.0f, 10.0f) * glm::rotate(-90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	renderable = renderer.addRenderable(cubeTexture, teddyGeo, normalShader, finalTransform);
+	thePass->addRenderable(renderable);
+
 	//cube normal
-	finalTransform = glm::translate(0.0f, 5.0f, -5.0f) * glm::rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	renderable = renderer.addRenderable(multiTexture1, planeGeo, multiTextureShader, finalTransform);
-	//renderable = renderer.addRenderable(shapeTexture, cubeGeo, tangentShader, finalTransform);
+	finalTransform = glm::translate(0.0f, 5.0f, -5.0f);
+	//renderable = renderer.addRenderable(multiTexture1, planeGeo, multiTextureShader, finalTransform);
+	renderable = renderer.addRenderable(glassTexture, cubeGeo, alphaTextureShader, finalTransform);
 	thePass->addRenderable(renderable);
 
 	//HIPPO

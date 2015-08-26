@@ -8,8 +8,8 @@ in layout(location=3) vec2 vertexUV;
 uniform mat4 modelToWorldMatrix;
 uniform mat4 modelToProjectionMatrix;
 
-out vec3 vertexPositionWorld;
 out vec3 normalWorld;
+out vec3 vertexPositionWorld;
 out vec3 vertexToFragmentColor;
 out vec2 UV;
 
