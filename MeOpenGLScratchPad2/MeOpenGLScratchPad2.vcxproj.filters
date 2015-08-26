@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Mainer.cpp" />
+    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="MeGame.cpp" />
+    <ClCompile Include="MeGame_moc.cpp" />
+    <ClCompile Include="DebugTools\DebugSlider.cpp" />
+    <ClCompile Include="DebugTools\DebugSlider_moc.cpp" />
+    <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="DebugTools\Menu\DebugMenu.cpp" />
+    <ClCompile Include="DebugTools\Menu\GameLayout.cpp" />
+    <ClCompile Include="DebugTools\Sliders\SliderInfo.cpp" />
+    <ClCompile Include="DebugTools\CheckBox\CheckBoxInfo.cpp" />
+    <ClCompile Include="Clock\Clock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rendering\Helpers\BufferInfo.h" />
+    <ClInclude Include="Rendering\Helpers\ShaderInfo.h" />
+    <ClInclude Include="Rendering\Helpers\TextureInfo.h" />
+    <ClInclude Include="Rendering\Helpers\VertexLayoutInfo.h" />
+    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Rendering\RenderTypeDefs.h" />
+    <ClInclude Include="Rendering\Helpers\Renderable.h" />
+    <ClInclude Include="Rendering\ShaderUniformParameter.h" />
+    <ClInclude Include="IO\FileIO.h" />
+    <ClInclude Include="Rendering\Helpers\Geometry.h" />
+    <ClInclude Include="Rendering\ParameterType.h" />
+    <ClInclude Include="MeGame.h" />
+    <ClInclude Include="Rendering\Helpers\PassInfo.h" />
+    <ClInclude Include="Rendering\Helpers\DataType.h" />
+    <ClInclude Include="DebugTools\DebugSlider.h" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="DebugTools\Menu\DebugMenu.h" />
+    <ClInclude Include="DebugTools\Menu\Infos\WatchInfo.h" />
+    <ClInclude Include="DebugTools\Menu\GameLayout.h" />
+    <ClInclude Include="DebugTools\Sliders\SliderInfo.h" />
+    <ClInclude Include="DebugTools\CheckBox\CheckBoxInfo.h" />
+    <ClInclude Include="Clock\Clock.h" />
+    <ClInclude Include="Rendering\Helpers\TextureInfo2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ShaderCode\VertexShaderCode.glsl" />
+    <None Include="ShaderCode\VertexShaderPassThroughCode.glsl" />
+    <None Include="ShaderCode\FragmentShaderPassThroughCode.glsl" />
+    <None Include="ShaderCode\FragmentShaderCode.glsl" />
+    <None Include="ShaderCode\LightSourceFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\LightSourceVertexShaderCode.glsl" />
+    <None Include="..\MyObjConverter\bin\Debug\MyBinaryFile.bin" />
+    <None Include="Assets\MyBinaryFile.bin" />
+    <None Include="ShaderCode\NormalVertexShaderCode.glsl" />
+    <None Include="ShaderCode\NormalFragmentShaderCode.glsl" />
+    <None Include="Assets\HisBinaryFile.bin" />
+    <None Include="ShaderCode\TangentVertexShaderCode.glsl" />
+    <None Include="ShaderCode\TangentFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\MultiTextureFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\MultiTextureVertexShaderCode.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{c629500a-89e4-4580-bfe0-475b46c75adc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\space.png" />
+    <Image Include="Assets\Shapes.png" />
+    <Image Include="Assets\ToonTeddyBear.png" />
+    <Image Include="Assets\gray.png" />
+    <Image Include="Assets\elementarySchool.png" />
+    <Image Include="Assets\middleSchool.png" />
+    <Image Include="Assets\highSchool.png" />
+    <Image Include="Assets\college.png" />
+  </ItemGroup>
+</Project>

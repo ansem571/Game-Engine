@@ -1,0 +1,12 @@
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\bin\Debug\MyObjConverter.exe.config
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\bin\Debug\MyObjConverter.exe
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\bin\Debug\MyObjConverter.pdb
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\obj\Debug\MyObjConverter.csprojResolveAssemblyReference.cache
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\obj\Debug\MyObjConverter.exe
+C:\Users\Ansem571\Desktop\Test\MyObjConverter\obj\Debug\MyObjConverter.pdb
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\bin\Debug\MyObjConverter.exe.config
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\obj\Debug\MyObjConverter.exe
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\obj\Debug\MyObjConverter.pdb
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\bin\Debug\MyObjConverter.exe
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\bin\Debug\MyObjConverter.pdb
+C:\Users\Ansem571\Desktop\Everything Else\School\Summer 2014\Game Library\GameProject\MyObjConverter\obj\Debug\MyObjConverter.csprojResolveAssemblyReference.cache
