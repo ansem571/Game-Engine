@@ -14,7 +14,8 @@ class PassInfo
 public:
 	Camera camera;
 	float x, y, z,
-		spec;
+		CubeX, CubeY, CubeZ,
+		RotateX, RotateY, spec;
 	PassInfo() : numRenderables(0) {}
 	inline void addRenderable(Renderable* renderable);
 };

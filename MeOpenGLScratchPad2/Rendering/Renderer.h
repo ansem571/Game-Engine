@@ -34,7 +34,7 @@ class Renderer : public QGLWidget
 
 	BufferInfo* getAvailableBuffer(GLsizeiptr neededSize);
 	void sendDataToBuffer(BufferInfo* buffer, GLsizeiptr size, void* data);
-	BufferInfo* findBufferWithSpace(GLsizeiptr neededSize);
+	BufferInfo* findBufferWithSpace(rend_uint neededSize);
 	BufferInfo* findUnallocatedBuffer();
 	BufferInfo* allocateNewBuffer();
 

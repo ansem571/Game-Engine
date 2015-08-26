@@ -13,7 +13,6 @@ uniform vec3 diffuseColor;
 uniform vec3 specularColor;
 uniform float applyTexture;
 
-
 uniform sampler2D myTextureSampler;
 
 void main()

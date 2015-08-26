@@ -48,6 +48,13 @@ void MeGame::newFrame()
 	thePass->y = debugMenu.sliderInfos[1].currentValue;
 	thePass->z = debugMenu.sliderInfos[2].currentValue;
 
+	thePass->CubeX = debugMenu.sliderInfos[3].currentValue;
+	thePass->CubeY = debugMenu.sliderInfos[4].currentValue;
+	thePass->CubeZ = debugMenu.sliderInfos[5].currentValue;
+
+	thePass->RotateX = debugMenu.sliderInfos[6].currentValue;
+	thePass->RotateY = debugMenu.sliderInfos[7].currentValue;
+
 	//thePass->spec = debugMenu.sliderInfos[3].currentValue;
 #endif
 
@@ -256,31 +263,27 @@ void MeGame::doRendererStuff()
 
 	//transform the renderable
 	glm::mat4 finalTransform;
-
 	finalTransform = glm::translate(0.0f, 0.0f, 0.0f) * glm::scale(0.1f, 0.1f, 0.1f);
 	//light source 0
 	Renderable* renderable = renderer.addRenderable(sphereTexture, lightSphereGeo, lightSourceShader, finalTransform);
 	thePass->addRenderable(renderable);
 
-	//normal mapped plane 1
-	finalTransform = glm::translate(0.0f, 5.0f, -10.0f) * glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	renderable = renderer.addRenderable(spaceTexture, planeGeo, normalShader, finalTransform);
-	thePass->addRenderable(renderable);
-
-	finalTransform = glm::translate(0.0f, 5.0f, -5.0f) * glm::scale(10.0f, 10.0f, 10.0f) * glm::rotate(-90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	renderable = renderer.addRenderable(cubeTexture, teddyGeo, normalShader, finalTransform);
-	thePass->addRenderable(renderable);
-
-	//cube normal
+	//normal cube 1
 	finalTransform = glm::translate(0.0f, 5.0f, -5.0f);
-	//renderable = renderer.addRenderable(multiTexture1, planeGeo, multiTextureShader, finalTransform);
-	renderable = renderer.addRenderable(glassTexture, cubeGeo, alphaTextureShader, finalTransform);
+	renderable = renderer.addRenderable(planeTexture, cubeGeo, tangentShader, finalTransform);
 	thePass->addRenderable(renderable);
 
 	//HIPPO
 	debugMenu.addSlider("Light X Position:", -20.0f, +20.0f, 0.0f); 
 	debugMenu.addSlider("Light Y Position:", -20.0f, +20.0f, 5.0f); 
 	debugMenu.addSlider("Light Z Position:", -20.0f, +20.0f, 0.0f); 
+
+	debugMenu.addSlider("Cube X Position:", -10.0f, +10.0f, 0.0f);
+	debugMenu.addSlider("Cube Y Position:", -10.0f, +10.0f, 5.0f);
+	debugMenu.addSlider("Cube Z Position:", -10.0f, +10.0f, -5.0f);
+
+	debugMenu.addSlider("Cube X Rotation:", -45.0f, +45.0f, 0.0f);
+	debugMenu.addSlider("Cube Y Rotation:", -45.0f, +45.0f, 0.0f);
 }
 
 

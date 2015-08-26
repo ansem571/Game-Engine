@@ -132,7 +132,7 @@ BufferInfo* Renderer::findUnallocatedBuffer()
 	return 0;
 }
 
-BufferInfo* Renderer::findBufferWithSpace(GLsizeiptr neededSize)
+BufferInfo* Renderer::findBufferWithSpace(rend_uint neededSize)
 {
 	for (unsigned int i = 0; i < MAX_BUFFER_INFOS; i++)
 		if (bufferInfos[i].hasBuffer && bufferInfos[i].getRemainingSize() > neededSize)
@@ -530,11 +530,21 @@ void Renderer::doPass(PassInfo* passInfo)
 				passInfo->z)
 				* glm::scale(0.1f, 0.1f, 0.1f);
 		}
-		if (i == 3)
+
+		if (i == 1)
+		{
+			r->transformations = glm::translate(
+				passInfo->CubeX,
+				passInfo->CubeY,
+				passInfo->CubeZ)
+				* glm::rotate(passInfo->RotateX, glm::vec3(1.0f, 0.0f, 0.0f))
+				* glm::rotate(passInfo->RotateY, glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+		/*if (i == 3)
 		{
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
+		}*/
 
 
 #endif
@@ -546,7 +556,7 @@ void Renderer::doPass(PassInfo* passInfo)
 		glDrawElements(
 			g->indexMode, g->numIndices,
 			g->indiceDataType, (void*)(g->indexByteOffset));
-		glDisable(GL_BLEND);
+		//glDisable(GL_BLEND);
 	}
 	//qDebug() << "Finished pass";
 }
