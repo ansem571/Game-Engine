@@ -48,12 +48,9 @@ void MeGame::newFrame()
 	thePass->y = debugMenu.sliderInfos[1].currentValue;
 	thePass->z = debugMenu.sliderInfos[2].currentValue;
 
-	thePass->CubeX = debugMenu.sliderInfos[3].currentValue;
-	thePass->CubeY = debugMenu.sliderInfos[4].currentValue;
-	thePass->CubeZ = debugMenu.sliderInfos[5].currentValue;
+	thePass->freq = debugMenu.sliderInfos[3].currentValue;
 
-	thePass->RotateX = debugMenu.sliderInfos[6].currentValue;
-	thePass->RotateY = debugMenu.sliderInfos[7].currentValue;
+	//thePass->applyDiffuse = debugMenu.checkBoxInfos[0].checked;
 
 	//thePass->spec = debugMenu.sliderInfos[3].currentValue;
 #endif
@@ -102,7 +99,10 @@ void MeGame::newFrame()
 void MeGame::setupLayout()
 {
 	mainWindow = new QWidget();
-	debugWidget = new QWidget();
+	debugWidgets = new QTabWidget();
+	sliders = new QWidget();
+	others = new QWidget();
+	
 	//can I setup the layouts
 	if(!layoutInfo.initialize())
 		return;
@@ -114,16 +114,28 @@ void MeGame::setupLayout()
 	if(!debugMenu.initialize())
 		return;
 #if DEBUGMENU_ON
+	// look into making the layout a widget
 	debugMenu.theLayout->setSpacing(0);
 	debugMenu.theLayout->setMargin(0);
-	debugWidget->setLayout(debugMenu.theLayout);
-	debugWidget->setContentsMargins(0, 0, 0, -10);
+	sliders->setLayout(debugMenu.theLayout);
+	sliders->setContentsMargins(10, 10, 10, 10);
+
+	debugWidgets->addTab(sliders, "Sliders"); // make this sliders
+
+	others->setLayout(debugMenu.otherLayout);
+	others->setContentsMargins(10, 10, 10, 10);
+
+	debugWidgets->addTab(others, "Other Controls"); //make this watches and checkboxes
+	//this will work
+
 #endif
 	layoutInfo.sceneLayout->addWidget(&renderer);
-	layoutInfo.debugLayout->addWidget(debugWidget);
+	layoutInfo.debugLayout->addWidget(debugWidgets);
 
 #if DEBUGMENU_ON
+	
 	layoutInfo.fullLayout->addLayout(layoutInfo.debugLayout);
+
 #endif
 	
 	layoutInfo.fullLayout->addLayout(layoutInfo.sceneLayout);
@@ -133,14 +145,19 @@ void MeGame::setupLayout()
 	*fps = clock.timeElapsedLastFrame();
 	
 	//HIPPO
+
+
 	debugMenu.watch("FPS", *fps);
+	//debugMenu.addCheckBox("Apply Diffuse Map", others);
+	//debugMenu.addCheckBox("Apply Normal Map", others);
+	//debugMenu.addCheckBox("Apply Ambient Map", others);
 
 	mainWindow->show();
 }
 
-ShapeData MeGame::readMyBinaryFile()
+ShapeData MeGame::readMyBinaryFile(char* fileName)
 {
-	std::ifstream input("Assets\\HisBinaryFile.bin",
+	std::ifstream input(fileName,
 		std::ios::binary | std::ios::in);
 
 	input.seekg(0, std::ios::end);
@@ -171,7 +188,7 @@ void MeGame::doRendererStuff()
 	rend_uint sizes[] = {3, 4, 3, 2};
 	rend_uint normalSizes[] = {3, 4, 3, 3, 2};
 	ShapeData sphere = ShapeGenerator::makeSphere(20);
-	ShapeData teddy = readMyBinaryFile();
+	ShapeData teddy = readMyBinaryFile("Assets\\HisBinaryFile.bin");
 	ShapeData torus = ShapeGenerator::makeTorus(20);
 	ShapeData lightSphere = ShapeGenerator::makeSphere(20);
 	ShapeData plane = ShapeGenerator::makePlane(8);
@@ -257,6 +274,7 @@ void MeGame::doRendererStuff()
 	TextureInfo* spaceTexture = renderer.addTexture("/Assets/space.png", 3);
 	TextureInfo* multiTexture1 = renderer.addTexture("/Assets/Leaf.png", "/Assets/whiteLeaf.png", 4, 5);
 	TextureInfo* glassTexture = renderer.addTexture("/Assets/GlassTexture", 6);
+	TextureInfo* noiseTexture = renderer.addNoiseTexture(7, 20);
 
 	//add a pass
 	thePass = renderer.addPassInfo();
@@ -264,13 +282,14 @@ void MeGame::doRendererStuff()
 	//transform the renderable
 	glm::mat4 finalTransform;
 	finalTransform = glm::translate(0.0f, 0.0f, 0.0f) * glm::scale(0.1f, 0.1f, 0.1f);
+
 	//light source 0
 	Renderable* renderable = renderer.addRenderable(sphereTexture, lightSphereGeo, lightSourceShader, finalTransform);
 	thePass->addRenderable(renderable);
 
-	//normal cube 1
-	finalTransform = glm::translate(0.0f, 5.0f, -5.0f);
-	renderable = renderer.addRenderable(planeTexture, cubeGeo, tangentShader, finalTransform);
+	//noise texture 1
+	finalTransform = glm::translate(0.0f, 5.0f, -5.0f) * glm::rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	renderable = renderer.addRenderable(noiseTexture, planeGeo, normalLightShader, finalTransform);
 	thePass->addRenderable(renderable);
 
 	//HIPPO
@@ -278,12 +297,7 @@ void MeGame::doRendererStuff()
 	debugMenu.addSlider("Light Y Position:", -20.0f, +20.0f, 5.0f); 
 	debugMenu.addSlider("Light Z Position:", -20.0f, +20.0f, 0.0f); 
 
-	debugMenu.addSlider("Cube X Position:", -10.0f, +10.0f, 0.0f);
-	debugMenu.addSlider("Cube Y Position:", -10.0f, +10.0f, 5.0f);
-	debugMenu.addSlider("Cube Z Position:", -10.0f, +10.0f, -5.0f);
-
-	debugMenu.addSlider("Cube X Rotation:", -45.0f, +45.0f, 0.0f);
-	debugMenu.addSlider("Cube Y Rotation:", -45.0f, +45.0f, 0.0f);
+	debugMenu.addSlider("Octave Frequency: ", 0.0f, 100.0f, 5.0f);
 }
 
 
@@ -459,10 +473,10 @@ void MeGame::checkDebugMenu()
 #if DEBUGMENU_ON
 	if(GetAsyncKeyState(VK_TAB))
 	{
-		if(debugWidget->isVisible())
-			debugWidget->setVisible(false);
+		if(debugWidgets->isVisible())
+			debugWidgets->setVisible(false);
 		else
-			debugWidget->setVisible(true);
+			debugWidgets->setVisible(true);
 		QEventLoop loop;
 		QTimer::singleShot(1000, &loop, SLOT(quit()));
 		loop.exec();

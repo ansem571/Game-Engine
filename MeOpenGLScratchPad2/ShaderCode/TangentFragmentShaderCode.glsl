@@ -11,7 +11,6 @@ uniform vec3 eyePositionWorld;
 uniform vec4 ambientLight;
 uniform vec3 diffuseColor;
 uniform vec3 specularColor;
-uniform float applyTexture;
 
 uniform sampler2D myTextureSampler;
 

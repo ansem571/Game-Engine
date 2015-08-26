@@ -56,6 +56,8 @@
     <None Include="ShaderCode\MultiTextureVertexShaderCode.glsl" />
     <None Include="ShaderCode\alphaVertexShaderCode.glsl" />
     <None Include="ShaderCode\alphaFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\mulitTextureNormalMapVertexShader.glsl" />
+    <None Include="ShaderCode\multiTextureNormalNormalMapFragmentShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">

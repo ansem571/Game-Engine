@@ -4,6 +4,7 @@
 #include <DebugTools\Sliders\SliderInfo.h>
 #include <DebugTools\CheckBox\CheckBoxInfo.h>
 #include <Qt\qlist.h>
+#include <Qt\qtabwidget.h>
 class QVBoxLayout;
 
 
@@ -22,6 +23,7 @@ public:
 #if DEBUGMENU_ON
 	void watch(const char* text, const float& value);
 	QVBoxLayout* theLayout;
+	QVBoxLayout* otherLayout;
 
 	bool initialize();
 	void update();

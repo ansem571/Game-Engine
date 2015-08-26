@@ -34,4 +34,10 @@ void main()
 	s = pow(s, specularIntensity);
 	vec4 specularLight = vec4(s, s, s, 1.0);
 	theFinalColor = temp * (clamp(diffuseLight, 0, 1) + ambientLight) * vec4(diffuseColor, 1.0f) + clamp(specularLight, 0, 1);
+	if(theFinalColor.b < 0.057f)
+	{
+		theFinalColor.r = 0;
+		theFinalColor.g = 0.4;
+		theFinalColor.b = 0.25;
+	}
 }

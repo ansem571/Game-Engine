@@ -10,6 +10,7 @@ DebugMenu DebugMenu::instance;
 bool DebugMenu::initialize()
 {
 	theLayout = new QVBoxLayout();
+	otherLayout = new QVBoxLayout();
 	return true;
 }
 
@@ -17,7 +18,7 @@ void DebugMenu::watch(const char* text, const float& value)
 {
 	QHBoxLayout* thisRow;
 
-	theLayout->addLayout(thisRow = new QHBoxLayout);
+	otherLayout->addLayout(thisRow = new QHBoxLayout);
 	thisRow->setSpacing(0);
 	thisRow->setMargin(0);
 
@@ -76,10 +77,7 @@ void DebugMenu::addCheckBox(const char* text, QWidget* widg)
 {
 	QHBoxLayout* thisRow;
 
-	theLayout->addLayout(thisRow = new QHBoxLayout);
-
-	thisRow->setSpacing(0);
-	thisRow->setMargin(0);
+	otherLayout->addLayout(thisRow = new QHBoxLayout);
 	thisRow->addWidget(new QLabel(text));
 
 	CheckBoxInfo c;

@@ -4,7 +4,7 @@
 void CheckBoxInfo::initialize(QWidget* widg)
 {
 	checkBox = new QCheckBox(widg);
-	checked = false;
+	checked = true;
 }
 
 

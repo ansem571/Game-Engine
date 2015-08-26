@@ -4,6 +4,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtx\transform.hpp>
 #include <Qt\qdir.h>
+#include <glm/gtc/noise.hpp>
 
 Renderer* Renderer::instance = 0;
 
@@ -304,7 +305,7 @@ void Renderer::setupUniforms(Renderable* renderable, PassInfo* passInfo, rend_ui
 
 	//vector setup
 	glm::vec3 eyePosition = passInfo->camera.getPosition();
-	glm::vec4 ambientLight(glm::vec3(0.05f, 0.05f, 0.05f), 1.0f);
+	glm::vec4 ambientLight = glm::vec4(0.05f, 0.05f, 0.05f, 1.0f);
 	glm::vec3 diffuseLight(glm::vec3(0.5f, 0.5f, 0.5f));
 	glm::vec3 lightPosition = glm::vec3(passInfo->x, passInfo->y, passInfo->z);
 	glm::vec3 specularLightColor = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -395,11 +396,9 @@ void Renderer::setupConventionalUniforms(Renderable* renderable, PassInfo* passI
 
 	//vector setup
 	glm::vec3 eyePosition = passInfo->camera.getPosition();
-	glm::vec4 ambientLight(glm::vec3(0.05f, 0.05f, 0.05f), 1.0f);
-	glm::vec3 diffuseLight(glm::vec3(0.5f, 0.5f, 0.5f));
+	glm::vec4 ambientLight = glm::vec4(glm::vec3(0.25f, 0.25f, 0.25f), 1.0f);
+	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.5f, 0.5f);
 	glm::vec3 lightPosition = glm::vec3(passInfo->x, passInfo->y, passInfo->z);
-	//for lab 4
-	//otherwise
 	glm::vec3 specularLightColor = glm::vec3(0.5f, 0.5f, 0.5f);
 	float specularIntensity = passInfo->spec;
 
@@ -533,22 +532,21 @@ void Renderer::doPass(PassInfo* passInfo)
 
 		if (i == 1)
 		{
-			r->transformations = glm::translate(
-				passInfo->CubeX,
-				passInfo->CubeY,
-				passInfo->CubeZ)
-				* glm::rotate(passInfo->RotateX, glm::vec3(1.0f, 0.0f, 0.0f))
-				* glm::rotate(passInfo->RotateY, glm::vec3(0.0f, 1.0f, 0.0f));
+			//GLuint index = r->t->TextureID[0];
+			//glDeleteTextures(1, &index);
+			//r->t = addNoiseTexture(7, passInfo->freq, o);
+
+
+			//glDeleteTextures(1, &r->t->TextureID[0]);
+			int o = (int)floor(passInfo->octave + 0.5);
+			GLubyte* data = generateData(passInfo->freq);
+			glBindTexture(GL_TEXTURE_2D, r->t->TextureID[0]);
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 128, 128, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
-		/*if (i == 3)
-		{
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}*/
+
 
 
 #endif
-		//setupUniforms(r);
 		if(r->t->singleTexture)
 			setupConventionalUniforms(r, passInfo, i);
 		else
@@ -556,14 +554,66 @@ void Renderer::doPass(PassInfo* passInfo)
 		glDrawElements(
 			g->indexMode, g->numIndices,
 			g->indiceDataType, (void*)(g->indexByteOffset));
-		//glDisable(GL_BLEND);
 	}
-	//qDebug() << "Finished pass";
 }
 
 void Renderer::draw()
 {
 	repaint();
+}
+
+GLubyte* Renderer::generateData(float f)
+{
+	int width = 128;
+	int height = 128;
+	GLubyte* data = new GLubyte[width * height * 4];
+
+	float xFactor = 1.0f / (width - 1);
+	float yFactor = 1.0f / (height - 1);
+
+	for (int row = 0; row < height; row++)
+	{
+		for (int col = 0; col < width; col++)
+		{
+			float x = xFactor * col;
+			float y = yFactor * row;
+			float sum = 0.0f;
+			float freq = f;
+			float scale = 3.0f;
+			for (int oct = 0; oct < 4; oct++)
+			{
+				glm::vec2 p(x * freq, y* freq);
+				float val = glm::perlin(p) / scale;
+				//float val = glm::perlin(p, glm::vec2(freq)) / scale;
+				sum += val;
+				float result = (sum + 1.0f) / 2.0f;
+
+				data[((row * width + col) * 4) + oct] = (GLubyte)(result * 255.0f);
+				freq *= 2.0f;
+				scale *= 3.0f;
+			}
+		}
+	}
+	return data;
+}
+
+TextureInfo* Renderer::addNoiseTexture(rend_uint index, float freq)
+{
+	int width = 128;
+	int height = 128;
+	
+	GLubyte *data = generateData(freq);
+
+	TextureInfo* t = new TextureInfo();
+	glGenTextures(1, &t->TextureID[0]);
+
+	glBindTexture(GL_TEXTURE_2D, t->TextureID[0]);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	t->TextureIndex[0] = index;
+	t->singleTexture = true;
+	return t;
 }
 
 TextureInfo* Renderer::addTexture(char* const file, rend_uint index)

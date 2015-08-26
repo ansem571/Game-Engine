@@ -7,7 +7,7 @@ const float Camera::ROTATIONAL_SPEED = 0.4f;
 
 Camera::Camera() :
 	viewDirection(0.0f, 0.0f, -1.0f),
-	position(0.0270246491f, 3.73235941f, 9.02219105f),
+	position(0.0270246491f, 3.73235941f, 5.02219105f),
 	UP(0.0f, 1.0f, 0.0f)
 {
 }

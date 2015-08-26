@@ -7,6 +7,7 @@
 #include <Rendering\Renderer.h>
 #include <Qt\qtest.h>
 #include <ShapeGenerator.h>
+#include <Qt\qtabwidget.h>
 //#include <NewVertex\NormalVertex.h>
 
 using Neumont::ShapeData;
@@ -25,7 +26,7 @@ class MeGame: public QObject
 	Clock clock;
 
 	void setupLayout();
-	ShapeData readMyBinaryFile();
+	ShapeData readMyBinaryFile(char* fileName);
 	void doRendererStuff();
 	void checkDebugMenu();
 	void updateCamera();
@@ -39,7 +40,9 @@ class MeGame: public QObject
 public:
 	float yes;
 	QWidget* mainWindow;
-	QWidget* debugWidget;
+	QTabWidget* debugWidgets;
+	QWidget* sliders;
+	QWidget* others;
 	bool initialize();
 	void runGameLoop();
 	bool shutDown();

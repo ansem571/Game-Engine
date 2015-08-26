@@ -127,7 +127,9 @@
     <None Include="ShaderCode\FragmentShaderPassThroughCode.glsl" />
     <None Include="ShaderCode\LightSourceFragmentShaderCode.glsl" />
     <None Include="ShaderCode\LightSourceVertexShaderCode.glsl" />
+    <None Include="ShaderCode\mulitTextureNormalMapVertexShader.glsl" />
     <None Include="ShaderCode\MultiTextureFragmentShaderCode.glsl" />
+    <None Include="ShaderCode\multiTextureNormalNormalMapFragmentShader.glsl" />
     <None Include="ShaderCode\MultiTextureVertexShaderCode.glsl" />
     <None Include="ShaderCode\NormalFragmentShaderCode.glsl" />
     <None Include="ShaderCode\NormalVertexShaderCode.glsl" />

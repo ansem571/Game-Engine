@@ -93,8 +93,10 @@ public:
 		rend_uint numAttributes,
 		rend_uint stride);
 
+	TextureInfo* addNoiseTexture(rend_uint index, float freq);
 	TextureInfo* addTexture(char* const file, rend_uint index);
 	TextureInfo* addTexture(char* const file1, char* const file2, rend_uint index, rend_uint index2);
+	GLubyte * generateData(float freq);
 	static Renderer& getInstance() { return *instance; }
 };
 
