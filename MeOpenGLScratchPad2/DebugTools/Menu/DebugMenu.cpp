@@ -31,14 +31,14 @@ void DebugMenu::watch(const char* text, const float& value)
 
 void DebugMenu::update()
 {
-	for (unsigned int i = 0; i < watchInfos.size(); i++)
+	for (int i = 0; i < watchInfos.size(); i++)
 	{
 		WatchInfo& w = watchInfos[i];
 		w.theLabel->setText(QString::number(*(w.theFloat), 'g', 2));
 	}
 
 	//loop sliderInfos
-	for (unsigned int i = 0; i < sliderInfos.size(); i++)
+	for (int i = 0; i < sliderInfos.size(); i++)
 	{
 		SliderInfo& s = sliderInfos[i];
 		s.currentValue = s.slider->value();
@@ -46,7 +46,7 @@ void DebugMenu::update()
 	}
 
 	//loop checkBoxInfos
-	for (unsigned int i = 0; i < checkBoxInfos.size(); i++)
+	for (int i = 0; i < checkBoxInfos.size(); i++)
 	{
 		CheckBoxInfo& c = checkBoxInfos[i];
 		c.checked = c.checkBox->isChecked();

@@ -37,7 +37,6 @@
     <ClInclude Include="DebugTools\Sliders\SliderInfo.h" />
     <ClInclude Include="DebugTools\CheckBox\CheckBoxInfo.h" />
     <ClInclude Include="Clock\Clock.h" />
-    <ClInclude Include="Rendering\Helpers\TextureInfo2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ShaderCode\VertexShaderCode.glsl" />
@@ -70,5 +69,7 @@
     <Image Include="Assets\middleSchool.png" />
     <Image Include="Assets\highSchool.png" />
     <Image Include="Assets\college.png" />
+    <Image Include="Assets\Leaf.png" />
+    <Image Include="Assets\whiteLeaf.png" />
   </ItemGroup>
 </Project>

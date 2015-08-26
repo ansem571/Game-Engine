@@ -1,31 +1,52 @@
-in vec3 Position;
-in vec3 Normal;
-in vec2 TexCoord;
+#version 420
 
-layout(binding=0) uniform sampler2D tex1;
-layout(binding=1) uniform sampler2D tex2;
+out vec4 theFinalColor;	
 
-struct LightInfo
+in vec3 normalWorld;
+in vec3 vertexPositionWorld;
+in vec3 vertexToFragmentColor;
+in vec2 UV;
+
+uniform vec3 lightPositionWorld;
+uniform vec3 eyePositionWorld;
+uniform vec4 ambientLight;
+uniform vec3 diffuseColor;
+uniform vec3 specularColor;
+
+uniform sampler2D myTextureSampler;
+uniform sampler2D myTextureSampler2;
+
+vec3 phongModel (vec3 position, vec3 norm)
 {
-	vec4 Position; // light position in eye coords.
-	vec3 Intensity; // A, D, S intensity
-};
+	//Diffuse
+	vec3 lightVectorWorld = normalize(lightPositionWorld - vertexPositionWorld);
+	float brightness = dot(lightVectorWorld, normalize(norm));
+	vec4 diffuseLight = vec4(brightness, brightness, brightness, 1.0);
 
-uniform LightInfo Light;
+	//Specular
+	vec3 reflectedLightVectorWorld = reflect(-lightVectorWorld, norm);
+	vec3 eyeVectorWorld = normalize(eyePositionWorld - position);
+	float s = dot(reflectedLightVectorWorld, eyeVectorWorld);
+	s = pow(s, 6);
+	vec4 specularLight = vec4(s, s, s, 1.0);
 
-struct MaterialInfo
+	return vec3((clamp(diffuseLight, 0, 1) + ambientLight) * vec4(diffuseColor, 1.0) + clamp(specularLight, 0, 1) * vec4(specularColor, 1.0));
+}
+
+void main()
 {
-	vec3 Ka; // Ambient reflectivity
-	vec3 Kd; // Diffuse reflectivity
-	vec3 Ks; // Specular reflect
-	float Shininess; // Specular shininess factor
-};
+	vec4 temp = texture(myTextureSampler, UV);
+	vec4 temp2 = texture(myTextureSampler2, UV);
 
-uniform MaterialInfo Material;
-
-out vec4 FragColor;
-
-void phongModel(vec3 pos, vec3 norm, out vec3 ambAndDiff, out vec3 spec)
-{
-
+	if(temp2.r <= 0 && temp2.g <= 0 && temp2.b <= 0)
+	{
+		discard;
+	}
+	else
+	{
+		if(gl_FrontFacing)
+			theFinalColor = vec4(phongModel(vertexPositionWorld, normalWorld), 1.0) * temp;
+		else
+			theFinalColor = vec4(phongModel(vertexPositionWorld, -normalWorld), 1.0) * temp;
+	}	
 }

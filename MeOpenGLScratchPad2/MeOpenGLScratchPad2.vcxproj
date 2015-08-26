@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -107,7 +107,6 @@
     <ClInclude Include="Rendering\Helpers\Geometry.h" />
     <ClInclude Include="Rendering\Helpers\BufferInfo.h" />
     <ClInclude Include="Rendering\Helpers\PassInfo.h" />
-    <ClInclude Include="Rendering\Helpers\TextureInfo2.h" />
     <ClInclude Include="Rendering\ParameterType.h" />
     <ClInclude Include="Rendering\Helpers\ShaderInfo.h" />
     <ClInclude Include="Rendering\Helpers\TextureInfo.h" />
@@ -140,10 +139,12 @@
     <Image Include="Assets\elementarySchool.png" />
     <Image Include="Assets\gray.png" />
     <Image Include="Assets\highSchool.png" />
+    <Image Include="Assets\Leaf.png" />
     <Image Include="Assets\middleSchool.png" />
     <Image Include="Assets\Shapes.png" />
     <Image Include="Assets\space.png" />
     <Image Include="Assets\ToonTeddyBear.png" />
+    <Image Include="Assets\whiteLeaf.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

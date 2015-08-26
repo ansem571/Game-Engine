@@ -1,22 +1,25 @@
 #version 400
+	
+in layout(location=0) vec3 vertexPositionModel;
+in layout(location=1) vec3 vertexColor;
+in layout(location=2) vec3 normalModel;
+in layout(location=3) vec2 vertexUV;
 
-in layout(location = 0) vec3 VertexPosition;
-in layout(location = 1) vec3 VertexNormal;
-in layout(location = 2) vec2 VertexTexCoord;
+uniform mat4 modelToWorldMatrix;
+uniform mat4 modelToProjectionMatrix;
 
-out vec3 Position;
-out vec3 Normal;
-out vec2 TexCoord;
-
-uniform mat4 ModelViewMatrix;
-uniform mat3 NormalMatrix;
-uniform mat4 ProjectionMatrix;
-uniform mat4 MVP;
+out vec3 normalWorld;
+out vec3 vertexPositionWorld;
+out vec3 vertexToFragmentColor;
+out vec2 UV;
 
 void main()
 {
-	TexCoord = VertexTexCoord;
-	Normal = normalize(NormalMatrix * VertexNormal);
-	Position = vec3(ModelViewMatrix * vec4(VertexPosition, 1.0);
-	gl_Position = MVP * vec4(VertexPosition, 1.0;
+	vec4 v = vec4(vertexPositionModel, 1.0);
+	gl_Position = modelToProjectionMatrix * v;
+	normalWorld = vec3(modelToWorldMatrix * vec4(normalModel, 0));
+	vertexPositionWorld = vec3(modelToWorldMatrix * v);
+
+	vertexToFragmentColor = vec3(vertexColor);
+	UV = vertexUV;
 }

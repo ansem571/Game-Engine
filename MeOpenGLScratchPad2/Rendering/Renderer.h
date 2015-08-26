@@ -9,8 +9,6 @@
 #include <Rendering\Helpers\DataType.h>
 #include <Rendering\Helpers\PassInfo.h>
 #include <Rendering\Helpers\TextureInfo.h>
-#include <Rendering\Helpers\TextureInfo2.h>
-
 
 class Geometry;
 
@@ -96,7 +94,7 @@ public:
 		rend_uint stride);
 
 	TextureInfo* addTexture(char* const file, rend_uint index);
-	TextureInfo* addTexture(char* const file1, char* const file2, rend_uint index);
+	TextureInfo* addTexture(char* const file1, char* const file2, rend_uint index, rend_uint index2);
 	static Renderer& getInstance() { return *instance; }
 };
 

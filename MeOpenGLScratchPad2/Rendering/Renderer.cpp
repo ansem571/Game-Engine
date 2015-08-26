@@ -294,8 +294,6 @@ VertexLayoutInfo* Renderer::getAvailableVertexLayoutInfo()
 	return 0;
 }
 
-//TODO: all the getX functions factor into one function
-
 //look at myTextureSampler for understanding of where to go
 void Renderer::setupUniforms(Renderable* renderable, PassInfo* passInfo, rend_uint i)
 {
@@ -319,8 +317,8 @@ void Renderer::setupUniforms(Renderable* renderable, PassInfo* passInfo, rend_ui
 	GLint specularColorUniformLocation = glGetUniformLocation(renderable->shader->programID, "specularColor");
 
 	//texture uniform locations
-	GLint applyTextureUniformLocation = glGetUniformLocation(renderable->shader->programID, "applyTexture");
 	GLint textureUniformLocation = glGetUniformLocation(renderable->shader->programID, "myTextureSampler");
+	GLint textureUniformLocation2 = glGetUniformLocation(renderable->shader->programID, "myTextureSampler2");
 
 	//matrix uniform locations
 	GLint mvwUniformLocation = glGetUniformLocation(renderable->shader->programID, "modelToWorldMatrix");
@@ -332,16 +330,6 @@ void Renderer::setupUniforms(Renderable* renderable, PassInfo* passInfo, rend_ui
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, renderable->t->TextureID[1]);
-
-	//apply texture
-	float applyTexture = 0.0f;
-	for(int index = 0; index < 2; index++)
-	{
-		if (renderable->t->TextureIndex[index] == 1 || renderable->t->TextureIndex[index] == 2 || renderable->t->TextureIndex[index] == 3)
-		{
-			applyTexture = 1.0f;
-		}
-	}
 
 	//define mvp
 	glm::mat4 mvp =
@@ -355,10 +343,10 @@ void Renderer::setupUniforms(Renderable* renderable, PassInfo* passInfo, rend_ui
 		glUniform1i(textureUniformLocation, 0);
 		//qDebug() << "texture";
 	}
-	if (applyTextureUniformLocation != -1)
+	if (textureUniformLocation2 != -1)
 	{
-		glUniform1f(applyTextureUniformLocation, applyTexture);
-		//qDebug() << "apply texture";
+		glUniform1i(textureUniformLocation2, 1);
+		//qDebug() << "texture";
 	}
 	if (eyePositionWorldUniformLocation != -1)
 	{
@@ -536,10 +524,10 @@ void Renderer::doPass(PassInfo* passInfo)
 		}
 		if (i == 1)
 		{
-			r->transformations = glm::translate(
+			/*r->transformations = glm::translate(
 				passInfo->cubeX,
 				passInfo->cubeY,
-				passInfo->cubeZ);
+				passInfo->cubeZ);*/
 		}
 
 #endif
@@ -581,7 +569,7 @@ TextureInfo* Renderer::addTexture(char* const file, rend_uint index)
 	return t;
 }
 
-TextureInfo* Renderer::addTexture(char* const file1, char* const file2, rend_uint index)
+TextureInfo* Renderer::addTexture(char* const file1, char* const file2, rend_uint index, rend_uint index2)
 {
 	TextureInfo* t = new TextureInfo();
 	glGenTextures(2, t->TextureID);
@@ -593,9 +581,11 @@ TextureInfo* Renderer::addTexture(char* const file1, char* const file2, rend_uin
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, t->TextureID[0]);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, image.width(), image.height());
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image.width(), image.height(), GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+	t->TextureIndex[0] = index;
 
 	std::string currentPath2 = QDir::currentPath().toLocal8Bit().data();
 	std::string imgPath2 = file2;
@@ -604,10 +594,11 @@ TextureInfo* Renderer::addTexture(char* const file1, char* const file2, rend_uin
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, t->TextureID[1]);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, image2.width(), image2.height());
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image2.width(), image2.height(), GL_RGBA, GL_UNSIGNED_BYTE, image2.bits());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image2.width(), image2.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image2.bits());
-
+	t->TextureIndex[1] = index2;
 	t->singleTexture = false;
 	return t;
 }
